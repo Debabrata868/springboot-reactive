@@ -1,0 +1,108 @@
+Reactive Programming Features
+=============================
+1) Asynchronous and Non-Blocking
+	Event loop process thread can't wait for a long period of responses rather than it takes N no of request before received the response.
+2) Functional Style Code
+	Traditional Rest API Code
+	--------------------------
+		public void deleteUser(Integer userID){
+			userRepository.deleteById(userId)
+		}
+	Reactive Functional Style Code
+	------------------------------
+		public Mono<User> deleteUser(Integer userId){
+			return userRepository.findById(userId)
+			.flatMap(existingUser -> userRepository.delete(existingUser)
+			.then(Mono.just(existingUser)));
+		}
+
+3) Data Flow as Event driven stream
+		Streaming Data			   Push Data / Event
+	Client<--------------------->Application<------------------------>Reactive Mongo DB
+										|
+										|
+									New Record Insert/Update
+4) Backpressure on data streams
+
+Specification
+================
+1)Publisher(I) (Database Driver)
+	public interface Publisher<T>{
+		public void subscribe(Subscriber<? super T> s);
+	}
+2)Subscriber(I) (Backend App/Browser)
+	public interface Subscriber<T>{
+		public void onSubscribe(Subscription s);
+		public void onNext(T t);
+		public void onError(Throwable t);
+		public void onComplete();
+	}
+3)Subscription(I)
+	public interface Subscription{
+		public void request(long n);
+		public void cancel();
+	}
+4)Processor(I)
+	public interface Processor<T, R> extends Subscriber<T>, Publisher<R>{}
+
+
+Library
+=======
+1)Reactor (Modules- Core, Test, Netty, Extra, Adapter, Kafka, Kotlin Extensions, RabbitMQ)(Datatypes- Flux and Mono)
+2)RXJava 
+3)Jdk9 Flow Reactive Stream
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
